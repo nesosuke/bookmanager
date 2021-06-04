@@ -24,5 +24,5 @@ async function updateReadingStatus() {
     };
     const jsondata = JSON.stringify(data);
     console.log(jsondata);
-    axios.post(url, jsondata)
+    // axios.post(url, jsondata)
 }
