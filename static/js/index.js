@@ -1,5 +1,3 @@
-// import axios from 'axios';
-
 const baseurl = 'http://localhost:5000';
 async function findBookinfo() {
     const isbn = document.forms.inputISBN.isbn.value;
@@ -29,5 +27,4 @@ async function updateReadingStatus() {
     else {
         alert('input valid ISBN!')
     }
-    // axios.post(url, jsondata)
 }
