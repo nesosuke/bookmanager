@@ -25,7 +25,7 @@ async function updateReadingStatus() {
         };
     }
     else {
-        alert('input ISBN!')
+        alert('input valid ISBN!')
     }
     const jsondata = JSON.stringify(data);
     console.log(jsondata);
