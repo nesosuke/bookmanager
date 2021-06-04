@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-from re import T
-from flask import Flask, render_template, request, session, jsonify, abort
-import json
+from flask import Flask, render_template, request, jsonify
 import requests as req
 from flask_pymongo import PyMongo
 from bs4 import BeautifulSoup
