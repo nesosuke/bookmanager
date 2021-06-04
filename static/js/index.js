@@ -17,17 +17,17 @@ async function updateReadingStatus() {
     const isbn = document.getElementById('bookisbn').textContent
     const uid = 'neso'
     const url = baseurl + '/status'
-    if (typeof isbn == 'number') {
+    if (typeof isbn == 'string') {
         const data = {
             'isbn': isbn,
             'status': status,
             'uid': uid
         };
+        const jsondata = JSON.stringify(data);
+        console.log(jsondata);
     }
     else {
         alert('input valid ISBN!')
     }
-    const jsondata = JSON.stringify(data);
-    console.log(jsondata);
     // axios.post(url, jsondata)
 }
