@@ -142,13 +142,13 @@ def insert_reading_status():
         {'isbn': isbn, 'uid': uid},
         {
             "$set":
-         {
-             'isbn': isbn,
-             'uid': uid,
-             'status': status,
-             'record_at': time_now,
-         }
-         },
+            {
+                'isbn': isbn,
+                'uid': uid,
+                'status': status,
+                'record_at': time_now,
+            }
+        },
         upsert=True
     )
     reading_status = mongo.db.statusdb.find_one({'isbn': isbn, 'uid': uid})

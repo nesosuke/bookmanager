@@ -16,8 +16,8 @@ async function updateReadingStatus() {
     const status = document.forms.updateStatus.status.value;
     const isbn = document.getElementById('bookisbn').textContent
     const uid = 'neso'
-    const url=baseurl+'/status'
-    const data={
+    const url = baseurl + '/status'
+    const data = {
         'isbn': isbn,
         'status': status,
         'uid': uid
