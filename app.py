@@ -138,12 +138,14 @@ def insert_reading_status():
     isbn = request.args.get('isbn')
     uid = request.args.get('uid')
     status = request.args.get('status')
+    booktitle = mongo.db.bookdb.find_one({'isbn':isbn})['title']
     time_now = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
     mongo.db.statusdb.find_one_and_update(
         {'isbn': isbn, 'uid': uid},
         {
             "$set":
             {
+                'title': booktitle,
                 'isbn': isbn,
                 'uid': uid,
                 'status': status,
@@ -182,10 +184,10 @@ def search_isbn_bytitle():
 def camera_page():
     return render_template('camera.html')
 
-@app.route('/status/reading')
-def show_list_of_reading():
+@app.route('/status/<status>')
+def show_list_of_reading(status):
     uid=request.args.get('uid')
-    data=mongo.db.statusdb.find({'uid':uid})
+    data=mongo.db.statusdb.find({'uid':uid, 'status':status})
     statuses=[]
     for item in data:
         del item['_id']
