@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from os import stat
 from flask import Flask, render_template, request, jsonify
 import requests as req
 from flask_pymongo import PyMongo
@@ -168,7 +169,7 @@ def get_users_status(uid):
     for item in res:
         del item['_id']
         statuses.append(item)
-    return str(statuses)
+    return json.dumps(statuses)
 
 
 @app.route('/search', methods=['GET'])
@@ -181,6 +182,15 @@ def search_isbn_bytitle():
 def camera_page():
     return render_template('camera.html')
 
+@app.route('/status/reading')
+def show_list_of_reading():
+    uid=request.args.get('uid')
+    data=mongo.db.statusdb.find({'uid':uid})
+    statuses=[]
+    for item in data:
+        del item['_id']
+        statuses.append(item)
+    return json.dumps(statuses)
 
 if __name__ == "__main__":
     app.run(debug=True)
