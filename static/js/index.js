@@ -42,13 +42,13 @@ async function updateReadingStatus() {
     }
 }
 
-async function fetchReadingStatus(){
-    const url = baseurl+'/status'
+async function fetchReadingStatus() {
+    const url = baseurl + '/status'
     const isbn = document.forms.inputISBN.isbn.value;
     const uid = 'neso';
-    const responseData=await fetch(url).then(response => response.json());
+    const responseData = await fetch(url).then(response => response.json());
 
-    const status=responseData['status']
+    const status = responseData['status']
     document.getElementById('status').textContent = status;
-    
+
 }
