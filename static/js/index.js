@@ -12,6 +12,11 @@ async function findBookinfo() {
 
 async function updateReadingStatus() {
     let status = document.forms.updateStatus.status.value;
+    if (status === '') {
+        alert('input status');
+        return;
+    }
+
     const isbn = document.getElementById('bookisbn').textContent // TODO: DOMから取るのをやめる．
     const uid = 'neso'
     let url = baseurl + '/status'
@@ -24,8 +29,8 @@ async function updateReadingStatus() {
         XHR.send(encodedUrl);
 
         url = url + '?isbn=' + isbn + '&uid=' + uid;
-        const data = await fetch(url).then(response =>  response.json());
-        status=data['status'];
+        const data = await fetch(url).then(response => response.json());
+        status = data['status'];
         console.log(status);
         document.getElementById('status').textContent = status;
     }
