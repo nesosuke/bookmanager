@@ -4,6 +4,7 @@ import requests as req
 from flask_pymongo import PyMongo
 from bs4 import BeautifulSoup
 import datetime
+import json 
 app = Flask(__name__)
 
 app.secret_key = 'super secret string'  # Change this!
@@ -124,10 +125,11 @@ def get_reading_status():
     uid = request.args.get('uid')
 
     reading_status = mongo.db.statusdb.find_one({'isbn': isbn, 'uid': uid})
-    if reading_status is None:
-        return None
-    del reading_status['_id']
-    return reading_status
+    if reading_status is not None:
+        data = {'isbn': isbn, 'uid':uid,'status':reading_status['status']}
+    else:
+        data = {'isbn': isbn, 'uid':uid,'status':'unread'}
+    return json.dumps(data)
 
 
 @app.route('/status', methods=['POST'])
@@ -151,8 +153,8 @@ def insert_reading_status():
     )
     reading_status = mongo.db.statusdb.find_one({'isbn': isbn, 'uid': uid})
     if reading_status['_id'] is not None:
-        del reading_status['_id']
-    return reading_status
+        data = {'isbn': isbn, 'uid':uid,'status':reading_status['status']}
+    return json.dumps(data)
 
 
 @app.route('/user/<uid>', methods=['GET'])

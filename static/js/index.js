@@ -45,7 +45,7 @@ async function updateReadingStatus() {
 async function fetchReadingStatus() {
     const isbn = document.forms.inputISBN.isbn.value;
     const uid = 'neso';
-    const url = baseurl + '/status' + '?isbn=' + isbn + '&uid=' + uid
+    const url = baseurl + '/status' + '?isbn=' + isbn + '\&uid=' + uid;
     const responseData = await fetch(url).then(response => response.json());
 
     const status = responseData['status']
