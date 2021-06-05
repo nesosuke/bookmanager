@@ -11,18 +11,23 @@ async function findBookinfo() {
 }
 
 async function updateReadingStatus() {
-    const status = document.forms.updateStatus.status.value;
-    const isbn = document.getElementById('bookisbn').textContent
+    let status = document.forms.updateStatus.status.value;
+    const isbn = document.getElementById('bookisbn').textContent // TODO: DOMから取るのをやめる．
     const uid = 'neso'
-    const url = baseurl + '/status'
+    let url = baseurl + '/status'
     if (typeof isbn == 'string') {
         const XHR = new XMLHttpRequest();
         const encodedUrl = baseurl + '/status' + '?' + 'isbn=' + isbn + '&status=' + status + '&uid=' + uid;
-        
+
         XHR.open('POST', encodedUrl);
         XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         XHR.send(encodedUrl);
 
+        url = url + '?isbn=' + isbn + '&uid=' + uid;
+        const data = await fetch(url).then(response =>  response.json());
+        status=data['status'];
+        console.log(status);
+        document.getElementById('status').textContent = status;
     }
     else {
         alert('input valid ISBN!')
