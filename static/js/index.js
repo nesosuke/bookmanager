@@ -26,12 +26,12 @@ async function updateReadingStatus() {
         const XHR = new XMLHttpRequest();
         const encodedUrl = baseurl + '/status' + '?' + 'isbn=' + isbn + '&status=' + status + '&uid=' + uid;
 
-        XHR.addEventListener('load', function (event) {
-            alert('Yeah! Data sent and response loaded.');
-        });
-        XHR.addEventListener('error', function (event) {
-            alert('Oops! Something went wrong.');
-        });
+        // XHR.addEventListener('load', function (event) {
+        //     alert('Yeah! Data sent and response loaded.');
+        // });
+        // XHR.addEventListener('error', function (event) {
+        //     alert('Oops! Something went wrong.');
+        // });
         XHR.open('POST', encodedUrl);
         XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         XHR.send(encodedUrl);
@@ -40,4 +40,15 @@ async function updateReadingStatus() {
     else {
         alert('input valid ISBN!')
     }
+}
+
+async function fetchReadingStatus(){
+    const url = baseurl+'/status'
+    const isbn = document.forms.inputISBN.isbn.value;
+    const uid = 'neso';
+    const responseData=await fetch(url).then(response => response.json());
+
+    const status=responseData['status']
+    document.getElementById('status').textContent = status;
+    
 }
