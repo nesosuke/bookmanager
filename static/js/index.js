@@ -16,22 +16,9 @@ async function updateReadingStatus() {
     const uid = 'neso'
     const url = baseurl + '/status'
     if (typeof isbn == 'string') {
-        // const data = {
-        //     'isbn': isbn,
-        //     'status': status,
-        //     'uid': uid
-        // };
-        // const jsondata = JSON.stringify(data);
-        // console.log(jsondata);
         const XHR = new XMLHttpRequest();
         const encodedUrl = baseurl + '/status' + '?' + 'isbn=' + isbn + '&status=' + status + '&uid=' + uid;
-
-        // XHR.addEventListener('load', function (event) {
-        //     alert('Yeah! Data sent and response loaded.');
-        // });
-        // XHR.addEventListener('error', function (event) {
-        //     alert('Oops! Something went wrong.');
-        // });
+        
         XHR.open('POST', encodedUrl);
         XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         XHR.send(encodedUrl);
