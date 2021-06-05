@@ -175,5 +175,10 @@ def search_isbn_bytitle():
     return str(getISBNs_bytitle_fromNDL(title))
 
 
+@app.route('/camera')
+def camera_page():
+    return render_template('camera.html')
+
+
 if __name__ == "__main__":
     app.run(debug=True)
