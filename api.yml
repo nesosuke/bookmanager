@@ -1,0 +1,127 @@
+openapi: "3.0.0"
+
+info:
+  title: "bookmanager"
+  version: "0.0.1"
+  description: "This is draft version."
+servers:
+  - url: "http://172.18.108.71:5000"
+    description: "Flask"
+
+tags:
+  - name: "user"
+  - name: "book"
+  - name: "record"
+paths:
+  /user/{username}:
+    get:
+      summary: "読了数"
+      description: "return number of read/reading/unread/wish books"
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "ok"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username: 
+                    type: string
+                  read:
+                    type: integer
+                  reading: 
+                    type: integer
+                  unread: 
+                    type: integer
+                  wish: 
+                    type: integer
+                    
+            
+      tags:
+        - "user"
+  /user/{username}/reading:
+    get:
+      summary: "読んでいる本"
+      description: "show user's reading books"
+      responses:
+        "200":
+          description: "ok"
+      tags:
+        - "user"
+      deprecated: true
+  /user/{username}/read:
+    get:
+      deprecated: true
+      summary: "読んだ本"
+      description: "show user's read books"
+      responses:
+        "200":
+          description: "ok"
+      tags:
+        - "user"
+  /user/{username}/unread:
+    get:
+      deprecated: true
+      summary: "積読"
+      description: "show user's reading books"
+      responses:
+        "200":
+          description: "ok"
+      tags:
+        - "user"
+  /user/{username}/wish:
+    get:
+      summary: "読みたい本"
+      description: "show user's reading books"
+      responses:
+        "200":
+          description: "ok"
+      tags:
+        - "user"
+      deprecated: true
+  /book/{bookid}:
+    get:
+      summary: "書籍情報"
+      description: ""
+      tags:
+        - "book"
+      responses:
+        "200":
+          description: "ok"
+
+  /record/{userid}:
+    post:
+      summary: "記録する"
+      tags:
+        - "record"
+      parameters:
+        - name: userid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                record_at:
+                  type: string
+                  format: "date-time"
+                  description: "更新日時(ISO-8601)，指定なければサーバータイム"
+                bookid:
+                  type: string
+                  description: '内部書籍ID'
+                note:
+                  description: メモ
+                  type: string
+      responses:
+        "200": 
+          description: 'ok'
