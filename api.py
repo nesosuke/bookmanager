@@ -18,7 +18,7 @@ mongo = PyMongo(app)
 
 # return user information
 @app.route('/user/<username>')
-def userpage(username):
+def userdata(username):
     data = user.fetch_userdata_fromDB(username)
     return json.dumps(data)
 
