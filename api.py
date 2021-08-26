@@ -4,6 +4,8 @@ from flask_pymongo import PyMongo
 import requests as req
 import json
 import user
+import book
+
 app = Flask(__name__)
 
 app.secret_key = 'super secret string'  # Change this!
@@ -20,21 +22,9 @@ def userpage(username):
 
 
 # return book information
-# TODO: 現状モックなので実際のISBNを対象に動くようにする
 @app.route('/book/<isbn>')
-def bookinfo(bookid):
-    title = 'hoge'
-    author = 'fuga'
-    isbn = "0"
-    publisher = 'piyo'
-
-    data = {
-        "bookid": bookid,
-        "title": title,
-        "author": author,
-        "isbn": isbn,
-        "publisher": publisher
-    }
+def bookinfo(isbn):
+    data = book.fetch_bookinfo(isbn)
     return json.dumps(data)
 
 
