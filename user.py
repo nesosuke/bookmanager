@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+import datetime
+import json
 from flask import Flask
 from flask_pymongo import PyMongo
 app = Flask(__name__)
@@ -13,13 +15,7 @@ mongo = PyMongo(app)
 def create_user(username):
     isExist = mongo.db.status.find_one({"username": username})
     if isExist is None:  # usernameに空きがある
-        new_userdata = {
-            "username": username,
-            "read": 0,
-            "reading": 0,
-            "unread": 0,
-            "wish": 0,
-        }
+        new_userdata = {"username": username}
         mongo.db.status.insert(new_userdata)
         result = "userdata is created!"
     else:
@@ -29,8 +25,50 @@ def create_user(username):
 
 # fetch user data from DB:bookmeter/status
 def fetch_userdata_fromDB(username):
-    data = mongo.db.status.find_one({"username": username})
+    res = list(mongo.db.status.find({"username": username}))
+
+    num_read = 0
+    num_reading = 0
+    num_unread = 0
+    num_wish = 0
+    for d in res:
+        if d['status'] == "read":
+            num_read += 1
+        elif d['status'] == "reading":
+            num_reading += 1
+        elif d['status'] == "unread":
+            num_unread += 1
+        elif d['status'] == "wish":
+            num_wish += 1
+
+    # やりたいけどできなかった
+    # num_read = res.count({"status": "read"})
+    # num_reading = res.count({"status": "reading"})
+    # num_unread = res.count({"status": "unread"})
+    # num_wish = res.count({"status": "wish"})
+
+    data = {"username": username,
+            "read": num_read,
+            "reading": num_reading,
+            "unread": num_unread,
+            "wish": num_wish
+            }
     return data
 
 
 # update user data in DB:bookmeter/status
+def update_userdata(username, status, isbn):
+    search_arg = {
+        "username": username,
+        "isbn": isbn}
+    data = {"$set":
+            {
+                "username": username,
+                "status": status,
+                "isbn": isbn,
+                "record_at": datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+            }
+            }
+
+    result = mongo.db.status.find_one_and_update(search_arg, data, upsert=True)
+    return result

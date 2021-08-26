@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-
-from flask import Flask
+from flask import Flask, request
 from flask_pymongo import PyMongo
+import requests as req
 import json
+import user
 app = Flask(__name__)
 
 app.secret_key = 'super secret string'  # Change this!
@@ -14,23 +15,13 @@ mongo = PyMongo(app)
 # return user information
 @app.route('/user/<username>')
 def userpage(username):
-    number_read = 0
-    number_reading = 0
-    number_unread = 0
-    number_wish = 0
-
-    data = {
-        "username": username,
-        "read": number_read,
-        "reading": number_reading,
-        "unread": number_unread,
-        "wish": number_wish,
-    }
+    data = user.fetch_userdata_fromDB(username)
     return json.dumps(data)
 
 
 # return book information
-@app.route('/book/<bookid>')
+# TODO: 現状モックなので実際のISBNを対象に動くようにする
+@app.route('/book/<isbn>')
 def bookinfo(bookid):
     title = 'hoge'
     author = 'fuga'
@@ -45,6 +36,18 @@ def bookinfo(bookid):
         "publisher": publisher
     }
     return json.dumps(data)
+
+
+# record reading status
+@app.route('/record', methods=['POST'])
+def record():
+    data = request.data.decode('utf-8')
+    data = json.loads(data)
+    username = data['username']
+    status = data['status']
+    isbn = data['isbn']
+    a = user.update_userdata(username, status, isbn)
+    return str(type(a))
 
 
 if __name__ == "__main__":
