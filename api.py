@@ -36,8 +36,7 @@ def record():
     username = data['username']
     status = data['status']
     isbn = data['isbn']
-    a = user.update_userdata(username, status, isbn)
-    return str(type(a))
+    return user.update_userdata(username, status, isbn)
 
 
 if __name__ == "__main__":

@@ -69,6 +69,7 @@ def update_userdata(username, status, isbn):
                 "record_at": datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
             }
             }
-
-    result = mongo.db.status.find_one_and_update(search_arg, data, upsert=True)
+    mongo.db.status.find_one_and_update(search_arg, data, upsert=True)
+    result = mongo.db.status.find_one(search_arg)
+    del result['_id']
     return result
