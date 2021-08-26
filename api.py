@@ -5,8 +5,10 @@ import requests as req
 import json
 import user
 import book
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 app.secret_key = 'super secret string'  # Change this!
 app.config["MONGO_URI"] = "mongodb://localhost:27017/bookmeter"

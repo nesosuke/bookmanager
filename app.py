@@ -4,7 +4,10 @@ import requests as req
 from flask_pymongo import PyMongo
 from bs4 import BeautifulSoup
 import datetime
+from flask_cors import CORS
+
 app = Flask(__name__)
+CORS(app)
 
 app.secret_key = 'super secret string'  # Change this!
 app.config["MONGO_URI"] = "mongodb://localhost:27017/bookmeter"
@@ -181,4 +184,4 @@ def camera_page():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=8080)
