@@ -5,7 +5,7 @@ info:
   version: "0.0.1"
   description: "This is draft version."
 servers:
-  - url: "http://172.18.108.71:5000"
+  - url: "http://172.30.52.64:5000"
     description: "Flask"
 
 tags:
@@ -45,46 +45,7 @@ paths:
             
       tags:
         - "user"
-  /user/{username}/reading:
-    get:
-      summary: "読んでいる本"
-      description: "show user's reading books"
-      responses:
-        "200":
-          description: "ok"
-      tags:
-        - "user"
-      deprecated: true
-  /user/{username}/read:
-    get:
-      deprecated: true
-      summary: "読んだ本"
-      description: "show user's read books"
-      responses:
-        "200":
-          description: "ok"
-      tags:
-        - "user"
-  /user/{username}/unread:
-    get:
-      deprecated: true
-      summary: "積読"
-      description: "show user's reading books"
-      responses:
-        "200":
-          description: "ok"
-      tags:
-        - "user"
-  /user/{username}/wish:
-    get:
-      summary: "読みたい本"
-      description: "show user's reading books"
-      responses:
-        "200":
-          description: "ok"
-      tags:
-        - "user"
-      deprecated: true
+  
   /book/{bookid}:
     get:
       summary: "書籍情報"
