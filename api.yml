@@ -94,7 +94,7 @@ paths:
                   type: string
                 status:
                   type: string
-                  description: "read or reading or unread or wish"  
+                  description: "read or reading or unread or wish"
                 # record_at:
                 #   type: string
                 #   format: "date-time"
@@ -108,3 +108,36 @@ paths:
       responses:
         "200":
           description: "ok"
+  /user/{username}/{isbn}:
+    get:
+      tags:
+        - "user"
+      summary: 特定の本の読了記録を取得する
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: isbn
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "ok"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  isbn:
+                    type: string
+                  status:
+                    type: string
+                  record_at: 
+                    type: string
+                    format: "date-time"

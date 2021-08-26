@@ -23,6 +23,13 @@ def userdata(username):
     return json.dumps(data)
 
 
+# return user's reading status
+@app.route('/user/<username>/<isbn>')
+def reading_status(username, isbn):
+    data = user.fetch_readingstatus(username, isbn)
+    return json.dumps(data)
+
+
 # return book information
 @app.route('/book/<isbn>')
 def bookinfo(isbn):

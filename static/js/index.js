@@ -1,4 +1,4 @@
-const baseurl = 'http://localhost:5000';
+const baseurl = 'http://172.30.52.64:5000';
 async function findBookinfo() {
     const isbn = document.forms.inputISBN.isbn.value;
     const url = baseurl + '/book/' + isbn;
@@ -13,44 +13,32 @@ async function findBookinfo() {
 async function updateReadingStatus() {
     const status = document.forms.updateStatus.status.value;
     const isbn = document.getElementById('bookisbn').textContent
-    const uid = 'neso'
-    const url = baseurl + '/status'
-    if (typeof isbn == 'string') {
-        // const data = {
-        //     'isbn': isbn,
-        //     'status': status,
-        //     'uid': uid
-        // };
-        // const jsondata = JSON.stringify(data);
-        // console.log(jsondata);
-        const XHR = new XMLHttpRequest();
-        const encodedUrl = baseurl + '/status' + '?' + 'isbn=' + isbn + '&status=' + status + '&uid=' + uid;
-
-        // XHR.addEventListener('load', function (event) {
-        //     alert('Yeah! Data sent and response loaded.');
-        // });
-        // XHR.addEventListener('error', function (event) {
-        //     alert('Oops! Something went wrong.');
-        // });
-        XHR.open('POST', encodedUrl);
-        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        XHR.send(encodedUrl);
-
-    }
-    else {
-        alert('input valid ISBN!')
-    }
+    const username = 'neso'
+    const url = baseurl + '/record'
+    // curl POST json data
+    const data = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            isbn: isbn,
+            username: username,
+            status: status
+        })
+    }).then(response => response.json());
+    console.log(data)
 }
 
 async function fetchReadingStatus() {
     const isbn = document.forms.inputISBN.isbn.value;
-    const uid = 'neso';
-    const url = baseurl + '/status' + '?isbn=' + isbn + '&uid=' + uid
+    const username = 'neso';
+    const url = baseurl + '/user/' + username + '/' + isbn
     const responseData = await fetch(url).then(response => response.json());
 
     const status = responseData['status']
     document.getElementById('status').textContent = status;
-
+    console.log(responseData)
 }
 
 function handleOnClick() {

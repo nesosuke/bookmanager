@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import datetime
 import json
+from bs4.element import ResultSet
 from flask import Flask
 from flask_pymongo import PyMongo
 app = Flask(__name__)
@@ -66,10 +67,19 @@ def update_userdata(username, status, isbn):
                 "username": username,
                 "status": status,
                 "isbn": isbn,
-                "record_at": datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+                "record_at": str(datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3])+'+09:00'
             }
             }
     mongo.db.status.find_one_and_update(search_arg, data, upsert=True)
     result = mongo.db.status.find_one(search_arg)
     del result['_id']
     return result
+
+
+# fetch user's reading status by ISBN
+def fetch_readingstatus(username, isbn):
+    search_arg = {"username": username, "isbn": isbn}
+    data = mongo.db.status.find_one(search_arg)
+    if data is not None:
+        del data['_id']
+    return data
