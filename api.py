@@ -34,7 +34,7 @@ def userpage(username):
 def bookinfo(bookid):
     title = 'hoge'
     author = 'fuga'
-    isbn = 0
+    isbn = "0"
     publisher = 'piyo'
 
     data = {
