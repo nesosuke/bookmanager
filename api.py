@@ -29,5 +29,23 @@ def userpage(username):
     return json.dumps(data)
 
 
+# return book information
+@app.route('/book/<bookid>')
+def bookinfo(bookid):
+    title = 'hoge'
+    author = 'fuga'
+    isbn = 0
+    publisher = 'piyo'
+
+    data = {
+        "bookid": bookid,
+        "title": title,
+        "author": author,
+        "isbn": isbn,
+        "publisher": publisher
+    }
+    return json.dumps(data)
+
+
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
