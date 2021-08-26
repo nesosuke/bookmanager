@@ -31,21 +31,19 @@ paths:
               schema:
                 type: object
                 properties:
-                  username: 
+                  username:
                     type: string
                   read:
                     type: integer
-                  reading: 
+                  reading:
                     type: integer
-                  unread: 
+                  unread:
                     type: integer
-                  wish: 
+                  wish:
                     type: integer
-                    
-            
       tags:
         - "user"
-  
+
   /book/{bookid}:
     get:
       summary: "書籍情報"
@@ -71,11 +69,11 @@ paths:
                   title:
                     type: string
                   author:
-                    type: string                  
+                    type: string
                   isbn:
-                    type: string                  
+                    type: string
                   publisher:
-                    type: string                  
+                    type: string
 
   /record/{userid}:
     post:
@@ -100,10 +98,10 @@ paths:
                   description: "更新日時(ISO-8601)，指定なければサーバータイム"
                 bookid:
                   type: string
-                  description: '内部書籍ID'
+                  description: "内部書籍ID"
                 note:
                   description: メモ
                   type: string
       responses:
-        "200": 
-          description: 'ok'
+        "200":
+          description: "ok"
