@@ -52,9 +52,30 @@ paths:
       description: ""
       tags:
         - "book"
+      parameters:
+        - name: bookid
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "ok"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bookid:
+                    type: string
+                  title:
+                    type: string
+                  author:
+                    type: string                  
+                  isbn:
+                    type: string                  
+                  publisher:
+                    type: string                  
 
   /record/{userid}:
     post:
