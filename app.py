@@ -172,10 +172,9 @@ def get_users_status(uid):
     return str(statuses)
 
 
-@app.route('/search', methods=['GET'])
-def search_isbn_bytitle():
-    title = request.args.get('title')
-    return str(getISBNs_bytitle_fromNDL(title))
+@app.route('/search')
+def search_page():
+    return render_template('search.html')
 
 
 @app.route('/camera')
