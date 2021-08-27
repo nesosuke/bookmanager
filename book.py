@@ -1,9 +1,7 @@
 #!/usr/bin/python3
-from api import bookinfo
-from flask import Flask, json
+from flask import Flask
 from flask_pymongo import PyMongo
 from bs4 import BeautifulSoup
-import json
 import requests
 
 app = Flask(__name__)
