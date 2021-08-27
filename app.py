@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-from flask import Flask, render_template, request, jsonify
-import requests as req
+from flask import Flask, render_template, request
 from flask_pymongo import PyMongo
-from bs4 import BeautifulSoup
-import datetime
 from flask_cors import CORS
+import user
+import book
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -15,6 +15,7 @@ app.config['JSON_AS_ASCII'] = False
 mongo = PyMongo(app)
 
 
+# Webpages section
 # return toppage
 @app.route('/')
 def toppage():
@@ -31,6 +32,39 @@ def search_page():
 @app.route('/camera')
 def camera_page():
     return render_template('camera.html')
+
+
+# API section
+# return user information
+@app.route('/api/v1/user/<username>')
+def userdata(username):
+    data = user.fetch_userdata_fromDB(username)
+    return json.dumps(data)
+
+
+# return user's reading status
+@app.route('/api/v1/user/<username>/<isbn>')
+def reading_status(username, isbn):
+    data = user.fetch_readingstatus(username, isbn)
+    return json.dumps(data)
+
+
+# return book information
+@app.route('/api/v1/book/<isbn>')
+def bookinfo(isbn):
+    data = book.fetch_bookinfo(isbn)
+    return json.dumps(data)
+
+
+# record reading status
+@app.route('/api/v1/record', methods=['POST'])
+def record():
+    data = request.data.decode('utf-8')
+    data = json.loads(data)
+    username = data['username']
+    status = data['status']
+    isbn = data['isbn']
+    return user.update_userdata(username, status, isbn)
 
 
 if __name__ == "__main__":

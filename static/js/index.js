@@ -1,4 +1,4 @@
-const baseurl = 'http://172.30.52.64:5000';
+const baseurl = 'http://172.30.52.64:5000/api/v1';
 async function findBookinfo() {
     const isbn = document.forms.inputISBN.isbn.value;
     const url = baseurl + '/book/' + isbn;
