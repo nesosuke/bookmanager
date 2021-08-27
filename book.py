@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from api import bookinfo
 from flask import Flask, json
 from flask_pymongo import PyMongo
 from bs4 import BeautifulSoup
@@ -55,3 +56,40 @@ def fetch_bookinfo(isbn):
         bookinfo = mongo.db.book.find_one({'isbn': isbn})
     del bookinfo['_id']
     return bookinfo
+
+
+# search ISBN by booktitle via curl
+def search_ISBN_by_booktitle(title):
+    url = 'https://iss.ndl.go.jp/api/opensearch?' + \
+        'cnt=' + str(20) + '&' + 'title=' + str(title)
+    res = requests.get(url, verify=False)
+    reslist = BeautifulSoup(
+        res.content, 'lxml').channel.find_all('item')  # list
+
+    bookinfolist = []
+    for res in reslist:
+        bookinfolist.append({'isbn': bs4totext(res.find('dc:identifier')),
+                             'title': bs4totext(res.find('dc:title')),
+                             'author': bs4totext(res.find('dc:creator')),
+                             'series': bs4totext(res.find('dcndl:seriestitle')),
+                             'volume': bs4totext(res.find('dcndl:volume')),
+                             'publisher': bs4totext(res.find('dc:publisher')),
+                             'permalink': bs4totext(res.find('guid'))
+                             })  # list
+    for i in range(len(bookinfolist)):
+        mongo.db.book.find_one_and_update(
+            {'isbn': bookinfolist[i]['isbn']},
+            {
+                "$set":
+                {
+                    "title": bookinfolist[i]['title'],
+                    "author": bookinfolist[i]['author'],
+                    "series": bookinfolist[i]['series'],
+                    "volume": bookinfolist[i]['volume'],
+                    "publisher": bookinfolist[i]['publisher'],
+                    "permalink": bookinfolist[i]['permalink'],
+                },
+            },
+            upsert=True
+        )
+    return bookinfolist  # json
