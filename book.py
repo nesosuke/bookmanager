@@ -51,8 +51,7 @@ def fetch_bookinfo(isbn):
             },
             upsert=True
         )
-        bookinfo = mongo.db.book.find_one({'isbn': isbn})
-    del bookinfo['_id']
+        bookinfo = mongo.db.book.find_one({'isbn': isbn}, {'_id': 0})
     return bookinfo
 
 
