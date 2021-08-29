@@ -138,6 +138,25 @@ paths:
                     type: string
                   status:
                     type: string
-                  record_at: 
+                  record_at:
                     type: string
                     format: "date-time"
+
+  /api/v1/book/search:
+    get:
+      tags:
+        - "book"
+      summary: "書籍名からISBNを検索する"
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object

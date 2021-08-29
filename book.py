@@ -57,7 +57,7 @@ def fetch_bookinfo(isbn):
 
 
 # search ISBN by booktitle via curl
-def search_ISBN_by_booktitle(title):
+def get_ISBN_fromNDL(title):
     url = 'https://iss.ndl.go.jp/api/opensearch?' + \
         'cnt=' + str(20) + '&' + 'title=' + str(title)
     res = requests.get(url, verify=False)
@@ -91,3 +91,12 @@ def search_ISBN_by_booktitle(title):
             upsert=True
         )
     return bookinfolist  # json
+
+
+# search ISBN from DB:bookmeter/book
+def search_ISBN(title):
+    result = mongo.db.book.find({'title': {'$regex': title}}, {'_id': 0})
+    resultlist = []
+    for r in result:
+        resultlist.append(r)
+    return resultlist

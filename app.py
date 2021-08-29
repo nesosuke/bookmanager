@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request
 from flask_pymongo import PyMongo
 from flask_cors import CORS
+import requests
 import user
 import book
 import json
@@ -65,6 +66,14 @@ def record():
     status = data['status']
     isbn = data['isbn']
     return user.update_userdata(username, status, isbn)
+
+
+# search ISBN from DB
+@app.route('/api/v1/book/search')
+def search_ISBN():
+    query = request.args.get('title')
+    data = json.dumps(book.search_ISBN(query))
+    return data
 
 
 if __name__ == "__main__":
