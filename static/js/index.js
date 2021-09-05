@@ -1,4 +1,4 @@
-const apiBaseUrl = 'http://172.30.52.64:8080/api/v1';
+const apiBaseUrl = 'http://localhost:8080/api/v1';
 async function findBookinfo() {
     const isbn = document.forms.inputISBN.isbn.value;
     const url = apiBaseUrl + '/book/' + isbn;

@@ -1,12 +1,17 @@
-const baseurl = 'http://172.22.242.210:8080';
+const baseurl = 'http://localhost:8080';
 const apiBaseUrl = baseurl+'/api/v1';
 
 async function searchByTitle() {
     const query = document.forms.booksearch.query.value;
     const url = apiBaseUrl + '/book/search?title=' + query;
     const responseData = await fetch(url).then(response => response.json());
-    console.log(responseData)
-
+    
+    if (responseData.length <20){
+        const url = apiBaseUrl+'/book/search/more?title='+query
+        const responseData = await fetch(url).then(response => response.json());
+        console.log(responseData)
+    }
+    
     responseData.forEach(data => {
         const title = data['title'];
         const isbn = data['isbn'];
