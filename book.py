@@ -23,7 +23,7 @@ def bs4totext(bs4object, default_value=""):
 
 # fetch book info from DB:bookmeter/book
 def fetch_bookinfo(isbn):
-    bookinfo = mongo.db.book.find_one({"isbn": isbn})
+    bookinfo = mongo.db.book.find_one({"isbn": isbn}, {'_id': 0})
     if bookinfo is None:
         url = 'https://iss.ndl.go.jp/api/opensearch?' + 'isbn=' + isbn
         res = BeautifulSoup(requests.get(url, verify=False).content,
