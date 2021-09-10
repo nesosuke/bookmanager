@@ -69,15 +69,19 @@ def update_userdata(username, status, isbn):
             }
             }
     mongo.db.status.find_one_and_update(search_arg, data, upsert=True)
-    result = mongo.db.status.find_one(search_arg)
-    del result['_id']
+    result = mongo.db.status.find_one(search_arg, {'_id': 0})
     return result
 
 
 # fetch user's reading status by ISBN
 def fetch_readingstatus(username, isbn):
     search_arg = {"username": username, "isbn": isbn}
-    data = mongo.db.status.find_one(search_arg)
-    if data is not None:
-        del data['_id']
+    data = mongo.db.status.find_one(search_arg, {'_id': 0})
+    if data is None:
+        mongo.db.status.find_one_and_update(search_arg,
+                                            {"$set":
+                                             {"username": username,
+                                              "isbn": isbn,
+                                              "status": "unread"}, }, upsert=True
+                                            )
     return data
