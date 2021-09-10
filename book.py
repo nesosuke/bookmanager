@@ -35,6 +35,7 @@ def fetch_bookinfo(isbn):
         volume = bs4totext(res.find('dcndl:volume'))
         publisher = bs4totext(res.find('dc:publisher'))
         permalink = bs4totext(res.find('guid'))
+        edition = bs4totext(res.find('dcndl:edition'))
 
         mongo.db.book.find_one_and_update(
             {'isbn': isbn},
@@ -47,6 +48,8 @@ def fetch_bookinfo(isbn):
                     "volume": volume,
                     "publisher": publisher,
                     "permalink": permalink,
+                    "edition": edition,
+
                 },
             },
             upsert=True
@@ -62,7 +65,6 @@ def get_ISBN_fromNDL(title):
     res = requests.get(url, verify=False)
     reslist = BeautifulSoup(
         res.content, 'lxml').channel.find_all('item')  # list
-
     bookinfolist = []
     for res in reslist:
         bookinfolist.append({'isbn': bs4totext(res.find('dc:identifier')),
@@ -71,7 +73,8 @@ def get_ISBN_fromNDL(title):
                              'series': bs4totext(res.find('dcndl:seriestitle')),
                              'volume': bs4totext(res.find('dcndl:volume')),
                              'publisher': bs4totext(res.find('dc:publisher')),
-                             'permalink': bs4totext(res.find('guid'))
+                             'permalink': bs4totext(res.find('guid')),
+                             'edition': bs4totext(res.find('dcndl:edition')),
                              })  # list
     for i in range(len(bookinfolist)):
         mongo.db.book.find_one_and_update(
@@ -85,6 +88,7 @@ def get_ISBN_fromNDL(title):
                     "volume": bookinfolist[i]['volume'],
                     "publisher": bookinfolist[i]['publisher'],
                     "permalink": bookinfolist[i]['permalink'],
+                    "edition": bookinfolist[i]['edition'],
                 },
             },
             upsert=True
