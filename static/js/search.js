@@ -1,54 +1,29 @@
-const baseurl = 'http://localhost:8080';
-const apiBaseUrl = baseurl+'/api/v1';
+const baseUrl = "http://localhost:8080/api/v1/book/search";
+function getIsbnfromNDL(query) {
+  const moreurl = baseUrl + "/more?title=" + query;
+  const responseData = fetch(moreurl).then((response) => response.json());
+  return responseData;
+}
 
 async function searchByTitle() {
-    const query = document.forms.booksearch.query.value;
-    const url = apiBaseUrl + '/book/search?title=' + query;
-    const responseData = await fetch(url).then(response => response.json());
-    
-    if (responseData.length <20){
-        const url = apiBaseUrl+'/book/search/more?title='+query
-        const responseData = await fetch(url).then(response => response.json());
-        console.log(responseData)
-    }
-    
-    responseData.forEach(data => {
-        const title = data['title'];
-        const isbn = data['isbn'];
+  const query = document.forms.booksearch.query.value;
+  const url = baseUrl + "?title=" + query;
+  let responseData = await fetch(url).then((response) => response.json());
+  console.log(responseData.length);
 
-        const html = `
+  if (responseData.length < 20) {
+    responseData = await getIsbnfromNDL(query);
+  }
+  responseData.forEach((data) => {
+    const title = data["title"];
+    const isbn = data["isbn"];
+
+    const html = `
     <tr>
     <td>${title}</td>
     <td>${isbn}</td>
     </tr>`;
 
-        table.insertAdjacentHTML("beforeend", html);
-
-    });
+    table.insertAdjacentHTML("beforeend", html);
+  });
 }
-
-
-    // //  insert json to HTML
-    // for (let i = 0; i < responseData.length; i++) {
-    //     console.log(responseData[i].title);
-
-    //     const booktitle = responseData[i].title;
-    //     const bookisbn = responseData[i].isbn;
-    //     document.getElementById('booktitle').textContent += booktitle;
-    //     document.getElementById('isbn').textContent += bookisbn;
-
-    //     const table = document.createElement('table');
-
-    //     responseData.forEach((data) => {
-    //         const tr = document.createElement('tr')
-    //         Object.entries(data).forEach(([key, val]) => {
-    //             const td = document.createElement('td');
-    //             const text = document.createTextNode(val);
-    //             td.appendChild(text);
-    //             tr.appendChild(td)
-    //         })
-    //         table.appendChild(tr)
-    //     })
-
-    // }
-
