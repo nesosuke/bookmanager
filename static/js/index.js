@@ -6,8 +6,10 @@ async function findBookinfo() {
 
     const title = bookinfo['title'];
     const bookisbn = bookinfo['isbn'];
+    const bookedition = bookinfo['edition'];
     document.getElementById('booktitle').textContent = title;
     document.getElementById('bookisbn').textContent = bookisbn;
+    document.getElementById('bookedition').textContent = bookedition;
 }
 
 async function updateReadingStatus() {
@@ -36,7 +38,10 @@ async function fetchReadingStatus() {
     const url = apiBaseUrl + '/user/' + username + '/' + isbn
     const responseData = await fetch(url).then(response => response.json());
 
-    const status = responseData['status']
+    let  status = responseData['status']
+    if (status === undefined){ 
+        status = 'unread';
+    }
     document.getElementById('status').textContent = status;
     console.log(responseData)
 }
