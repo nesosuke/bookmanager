@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <h1>bookmanager</h1>
+    <form name='booksearch'>
+        <input type="text" name="query" placeholder="入門Python 3">
+        <input type="button" onclick="searchByTitle()" value="検索">
+        <br>
+        ※大文字小文字を区別します
+    </form>
+
+  
+    <table id='table'>
+        <tr>
+            <th>title</th>
+            <th>ISBN</th>
+        </tr>
+    </table>
+    <script src="../static/js/search.js"></script>
+
+</body>
+
+</html>

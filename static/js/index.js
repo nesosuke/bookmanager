@@ -1,20 +1,22 @@
-const baseurl = 'http://172.30.52.64:8080/api/v1';
+const apiBaseUrl = 'http://localhost:8080/api/v1';
 async function findBookinfo() {
     const isbn = document.forms.inputISBN.isbn.value;
-    const url = baseurl + '/book/' + isbn;
+    const url = apiBaseUrl + '/book/' + isbn;
     const bookinfo = await fetch(url).then(response => response.json());
 
     const title = bookinfo['title'];
     const bookisbn = bookinfo['isbn'];
+    const bookedition = bookinfo['edition'];
     document.getElementById('booktitle').textContent = title;
     document.getElementById('bookisbn').textContent = bookisbn;
+    document.getElementById('bookedition').textContent = bookedition;
 }
 
 async function updateReadingStatus() {
     const status = document.forms.updateStatus.status.value;
     const isbn = document.getElementById('bookisbn').textContent
     const username = 'neso'
-    const url = baseurl + '/record'
+    const url = apiBaseUrl + '/record'
     // curl POST json data
     const data = await fetch(url, {
         method: 'POST',
@@ -33,10 +35,13 @@ async function updateReadingStatus() {
 async function fetchReadingStatus() {
     const isbn = document.forms.inputISBN.isbn.value;
     const username = 'neso';
-    const url = baseurl + '/user/' + username + '/' + isbn
+    const url = apiBaseUrl + '/user/' + username + '/' + isbn
     const responseData = await fetch(url).then(response => response.json());
 
-    const status = responseData['status']
+    let  status = responseData['status']
+    if (status === undefined){ 
+        status = 'unread';
+    }
     document.getElementById('status').textContent = status;
     console.log(responseData)
 }

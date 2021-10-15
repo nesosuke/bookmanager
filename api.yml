@@ -160,3 +160,22 @@ paths:
             application/json:
               schema:
                 type: object
+  /api/v1/book/search/more:
+    get:
+      tags:
+        - "book"
+      summary: "NDLから追加検索"
+      parameters:
+      - name : title 
+        in : query
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+            

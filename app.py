@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from flask import Flask, render_template, request
 from flask_pymongo import PyMongo
+from pymongo.message import query
 from flask_cors import CORS
 import requests
 import user
@@ -73,6 +74,14 @@ def record():
 def search_ISBN():
     query = request.args.get('title')
     data = json.dumps(book.search_ISBN(query))
+    return data
+
+
+# get data from NDL
+@app.route('/api/v1/book/search/more')
+def search_ISBN_more():
+    query = request.args.get('title')
+    data = json.dumps(book.get_ISBN_fromNDL(query))
     return data
 
 
